@@ -20,9 +20,9 @@ def main(argv):
     parser.add_argument('--basic_model_file', default='./tfmodels/vgg16.tfmodel', help='Tensorflow model file for the chosen CNN model')
     parser.add_argument('--load_basic_model', action='store_true', default=False, help='Turn on to load the pretrained CNN model')
 
-    parser.add_argument('--dataset', default='pascal', help='Dataset: Can be coco or pascal')
+    parser.add_argument('--dataset', default='coco', help='Dataset: Can be coco or pascal')
 
-    parser.add_argument('--train_coco_image_dir', default='./train/coco/images/', help='Directory containing the COCO train2014 images')
+    parser.add_argument('--train_coco_image_dir', default='./train/coco/images/train2014', help='Directory containing the COCO train2014 images')
     parser.add_argument('--train_coco_annotation_file', default='./train/coco/instances_train2014.json', help='JSON file storing the objects for COCO train2014 images') 
     parser.add_argument('--train_coco_data_dir', default='./train/coco/data/', help='Directory to store temporary training data for COCO')
 
@@ -30,13 +30,13 @@ def main(argv):
     parser.add_argument('--train_pascal_annotation_dir', default='./train/pascal/annotations/', help='Directory containing the PASCAL training annotations') 
     parser.add_argument('--train_pascal_data_dir', default='./train/pascal/data/', help='Directory to store temporary training data for PASCAL')
 
-    parser.add_argument('--val_coco_image_dir', default='./val/coco/images/', help='Directory containing the COCO val2014 images')
+    parser.add_argument('--val_coco_image_dir', default='./val/coco/images/val2014', help='Directory containing the COCO val2014 images')
     parser.add_argument('--val_coco_annotation_file', default='./val/coco/instances_val2014.json', help='JSON file storing the objects for COCO val2014 images')
 
     parser.add_argument('--val_pascal_image_dir', default='./val/pascal/images/', help='Directory containing the PASCAL validation images')
     parser.add_argument('--val_pascal_annotation_dir', default='./val/pascal/annotations/', help='Directory containing the PASCAL validation annotations')
 
-    parser.add_argument('--test_image_dir', default='./test/images/', help='Directory containing the testing images')
+    parser.add_argument('--test_image_dir', default='./coco/test/images/test2014', help='Directory containing the testing images')
     parser.add_argument('--test_result_file', default='./test/result.pickle', help='File to store the testing results')
     parser.add_argument('--test_result_dir', default='./test/results/', help='Directory to store the testing results as images')
 
@@ -72,7 +72,10 @@ def main(argv):
                 train_data = prepare_train_pascal_data(args)
 
             model = ObjectDetector(args, 'train')
-            sess.run(tf.initialize_all_variables())
+            varmodel = tf.global_variables_initializer() 
+            print('let us see')
+            sess.run(varmodel)
+            print('can we?')
 
             if args.load:
                 model.load(sess)

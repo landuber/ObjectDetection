@@ -356,6 +356,7 @@ class ObjectDetector(BaseModel):
         anchor_weights = tf.reshape(anchor_weights, [-1])
         anchor_reg_masks = tf.reshape(anchor_reg_masks, [-1])
 
+
         loss0 = tf.nn.sparse_softmax_cross_entropy_with_logits(all_rpn_logits, gt_anchor_labels) * anchor_masks
         loss0 = tf.reduce_sum(loss0 * anchor_weights) / tf.reduce_sum(anchor_weights)
 
@@ -524,6 +525,8 @@ class ObjectDetector(BaseModel):
         self.loss0 = loss0
         self.loss1 = loss1
         self.opt_op = opt_op
+
+        print("Built global loss function and its optimizer")
 
     def l2_loss(self, s, t):
         """ L2 loss function. """
