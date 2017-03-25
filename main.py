@@ -73,9 +73,7 @@ def main(argv):
 
             model = ObjectDetector(args, 'train')
             varmodel = tf.global_variables_initializer() 
-            print('let us see')
             sess.run(varmodel)
-            print('can we?')
 
             if args.load:
                 model.load(sess)
