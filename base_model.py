@@ -4,7 +4,7 @@ import sys
 import numpy as np
 import tensorflow as tf
 import cv2
-import _pickle as pickle
+import pickle as pickle
 from tqdm import tqdm
 
 from dataset import *
@@ -481,4 +481,3 @@ class BaseModel(object):
                         if not ignore_missing:
                             raise
         #print("%d variables loaded. %d variables missed." %(count, miss_count))
-

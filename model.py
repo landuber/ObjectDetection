@@ -343,8 +343,8 @@ class ObjectDetector(BaseModel):
             if i<1:
                 current_feats = max_pool(current_feats, 2, 2, 2, 2, 'rpn_pool'+label_i)
 
-        all_rpn_logits = tf.concat(1, all_rpn_logits)
-        all_rpn_regs = tf.concat(1, all_rpn_regs)
+        all_rpn_logits = tf.concat(all_rpn_logits, 1)
+        all_rpn_regs = tf.concat(all_rpn_regs, 1)
 
         all_rpn_logits = tf.reshape(all_rpn_logits, [-1, 2])
         all_rpn_regs = tf.reshape(all_rpn_regs, [-1, 4])
@@ -357,7 +357,7 @@ class ObjectDetector(BaseModel):
         anchor_reg_masks = tf.reshape(anchor_reg_masks, [-1])
 
 
-        loss0 = tf.nn.sparse_softmax_cross_entropy_with_logits(all_rpn_logits, gt_anchor_labels) * anchor_masks
+        loss0 = tf.nn.sparse_softmax_cross_entropy_with_logits(logits=all_rpn_logits, labels=gt_anchor_labels) * anchor_masks
         loss0 = tf.reduce_sum(loss0 * anchor_weights) / tf.reduce_sum(anchor_weights)
 
         w = self.l2_loss(all_rpn_regs, gt_anchor_regs) * anchor_reg_masks
@@ -450,7 +450,7 @@ class ObjectDetector(BaseModel):
             useful_regs = regs
 
         # Compute the loss function
-        loss0 = tf.nn.sparse_softmax_cross_entropy_with_logits(logits, gt_roi_classes) * roi_masks
+        loss0 = tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits, labels=gt_roi_classes) * roi_masks
         loss0 = tf.reduce_sum(loss0 * roi_weights) / tf.reduce_sum(roi_weights)
 
         w = self.l2_loss(useful_regs, gt_roi_regs) * roi_reg_masks

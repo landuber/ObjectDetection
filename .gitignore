@@ -1,6 +1,12 @@
 /test
 /train
 /val
+/models
+/basic_models
 **/__pycache__
 *.swp
+*.pyc
+*.pyx
+*.npz
+*.so
 .DS_Store

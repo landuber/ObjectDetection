@@ -17,10 +17,10 @@ def main(argv):
 
     parser.add_argument('--mean_file', default='./utils/ilsvrc_2012_mean.npy', help='Dataset image mean: a Numpy array with (Channel, Height, Width) dimensions')
     parser.add_argument('--basic_model', default='vgg16', help='CNN model to use: Can be vgg16, resnet50, resnet101 or resnet152')
-    parser.add_argument('--basic_model_file', default='./tfmodels/vgg16.tfmodel', help='Tensorflow model file for the chosen CNN model')
+    parser.add_argument('--basic_model_file', default='./basic_models/vgg16.tfmodel', help='Tensorflow model file for the chosen CNN model')
     parser.add_argument('--load_basic_model', action='store_true', default=False, help='Turn on to load the pretrained CNN model')
 
-    parser.add_argument('--dataset', default='coco', help='Dataset: Can be coco or pascal')
+    parser.add_argument('--dataset', default='pascal', help='Dataset: Can be coco or pascal')
 
     parser.add_argument('--train_coco_image_dir', default='./train/coco/images/train2014', help='Directory containing the COCO train2014 images')
     parser.add_argument('--train_coco_annotation_file', default='./train/coco/instances_train2014.json', help='JSON file storing the objects for COCO train2014 images') 
