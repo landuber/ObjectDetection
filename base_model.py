@@ -469,7 +469,7 @@ class BaseModel(object):
         miss_count = 0
         for op_name in data_dict:
             with tf.variable_scope(op_name, reuse=True):
-                for param_name, data in data_dict[op_name].iteritems():
+                for param_name, data in data_dict[op_name].items():
                     try:
                         var = tf.get_variable(param_name)
                         session.run(var.assign(data))
