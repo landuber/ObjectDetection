@@ -12,6 +12,8 @@ from bbox import *
 from utils.coco.coco import *
 from utils.coco.cocoeval import *
 
+from tensorflow.python import pywrap_tensorflow
+
 class ImageLoader(object):
     def __init__(self, mean_file):
         self.bgr = True 
@@ -182,7 +184,7 @@ class BaseModel(object):
                     self.save(sess)
 
             train_dataset.reset()
-
+        self.save(sess)
         print("Model trained.")
 
     def val_coco(self, sess, val_coco, val_dataset):
@@ -450,7 +452,7 @@ class BaseModel(object):
     def save(self, sess):
         """ Save the trained model. """
         print("Saving model to %s" %self.save_dir)
-        self.saver.save(sess, self.save_dir, self.global_step)
+        self.saver.save(sess, self.save_dir + 'detection_model' , self.global_step)
 
     def load(self, sess):
         """ Load the trained model. """
@@ -459,7 +461,35 @@ class BaseModel(object):
         if checkpoint is None: 
             print("Error: No saved model found. Please train first.") 
             sys.exit(0) 
+        print(checkpoint.model_checkpoint_path)
         self.saver.restore(sess, checkpoint.model_checkpoint_path) 
+
+    def load_graceful(self, sess, ignore_missing=True):
+        """ Load the trained model. """
+        print("Loading model...") 
+        checkpoint = tf.train.get_checkpoint_state(self.save_dir) 
+        count = 0
+        miss_count = 0
+        if checkpoint is None: 
+            print("Error: No saved model found. Please train first.") 
+            sys.exit(0) 
+        #print(checkpoint.model_checkpoint_path)
+        reader = pywrap_tensorflow.NewCheckpointReader(checkpoint.model_checkpoint_path)
+        var_to_shape_map = reader.get_variable_to_shape_map()
+        for key in var_to_shape_map:
+            try:
+                #var = tf.get_variable(key)
+                vars = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, key)
+                if vars:
+                    var = vars[0]
+                    sess.run(var.assign(reader.get_tensor(key)))
+                    count += 1
+                #print("Variable %s loaded" %key)
+            except ValueError:
+                miss_count += 1
+                #print("Variable %s missed" %key)
+                if not ignore_missing:
+                    raise
 
     def load2(self, data_path, session, ignore_missing=True):
         """ Load the pretrained CNN model. """

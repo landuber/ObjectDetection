@@ -72,8 +72,8 @@ def main(argv):
                 train_data = prepare_train_pascal_data(args)
 
             model = ObjectDetector(args, 'train')
-            varmodel = tf.global_variables_initializer() 
-            sess.run(varmodel)
+            init_all_op = tf.global_variables_initializer() 
+            sess.run(init_all_op)
 
             if args.load:
                 model.load(sess)
