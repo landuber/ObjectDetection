@@ -33,10 +33,10 @@ def main(argv):
     parser.add_argument('--val_coco_image_dir', default='./val/coco/images/val2014', help='Directory containing the COCO val2014 images')
     parser.add_argument('--val_coco_annotation_file', default='./val/coco/instances_val2014.json', help='JSON file storing the objects for COCO val2014 images')
 
-    parser.add_argument('--val_pascal_image_dir', default='./val/pascal/images/', help='Directory containing the PASCAL validation images')
-    parser.add_argument('--val_pascal_annotation_dir', default='./val/pascal/annotations/', help='Directory containing the PASCAL validation annotations')
+    parser.add_argument('--val_pascal_image_dir', default='./train/pascal/images/', help='Directory containing the PASCAL validation images')
+    parser.add_argument('--val_pascal_annotation_dir', default='./train/pascal/annotations/', help='Directory containing the PASCAL validation annotations')
 
-    parser.add_argument('--test_image_dir', default='./coco/test/images/test2014', help='Directory containing the testing images')
+    parser.add_argument('--test_image_dir', default='./test/pascal/images/', help='Directory containing the testing images')
     parser.add_argument('--test_result_file', default='./test/result.pickle', help='File to store the testing results')
     parser.add_argument('--test_result_dir', default='./test/results/', help='Directory to store the testing results as images')
 
@@ -111,7 +111,7 @@ def main(argv):
             test_data = prepare_test_data(args)
             model = ObjectDetector(args, 'test')  
             model.load(sess)
-            model.test(sess, test_data)
+            model.test(sess, test_data, False, False)
 
 if __name__=="__main__":
      main(sys.argv)

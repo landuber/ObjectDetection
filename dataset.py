@@ -20,11 +20,11 @@ coco_category_to_class = {1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5, 7: 6, 8: 7, 9: 8, 
 
 pascal_num_class = 9
 
-pascal_class_names = {0: 'pedestrian', 1: 'cyclist', 2: 'car', 3: 'person_sitting', 4: 'van', 5: 'truck', 6: 'tram', 7: 'misc', 8: 'dontcare' }
+pascal_class_names = {0: 'pedestrian', 1: 'cyclist', 2: 'car', 3: 'dontcare' }
 
-pascal_class_ids = {'pedestrian': 0, 'cyclist': 1, 'car': 2, 'person_sitting': 3, 'van': 4, 'truck': 5, 'tram': 6, 'misc': 7, 'dontcare': 8} 
+pascal_class_ids = {'pedestrian': 0, 'cyclist': 1, 'car': 2, 'dontcare': 3} 
 
-pascal_class_colors = [[174, 220, 192], [116, 108, 127], [118, 144, 153], [189, 149, 122], [191,  93, 101], [154, 190, 115], [216, 148, 110], [230, 141, 249], [191, 217, 206]]
+pascal_class_colors = [[174, 220, 192], [116, 108, 127], [118, 144, 153], [189, 149, 122]]
 
 
 class DataSet():
@@ -344,7 +344,7 @@ def prepare_test_data(args):
     image_dir = args.test_image_dir
 
     files = os.listdir(image_dir)
-    files = [f for f in files if f.lower().endswith('.jpg')]
+    files = [f for f in files if f.lower().endswith('.png')]
 
     img_ids = list(range(len(files)))
     img_files = []
